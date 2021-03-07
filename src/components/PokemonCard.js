@@ -2,7 +2,7 @@ import React from "react";
 
 const PokemonCard = ({ poke, types, opponent }) => {
   // console.log(poke)
-  if (!poke || !types) {
+  if (!poke || !types || !opponent) {
     return null;
   } else {
     const compareTypes = (types, opponent) => {
@@ -59,28 +59,31 @@ const PokemonCard = ({ poke, types, opponent }) => {
     const oppTotal = opponent.stats.reduce((a, b) => a + b["base_stat"], 0);
     const oppAverage = Math.round(oppTotal / poke.stats.length);
 
+    const capitalizeFirstLetter = (string) => {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     return (
       <div className="PokemonCard">
         <img
           src={`https://pokeres.bastionbot.org/images/pokemon/${poke.id}.png`}
           alt={poke.name}
         />
-        <h3>{poke.name}</h3>
+        <h3>{capitalizeFirstLetter(poke.name)}</h3>
         <div>
           Types:{" "}
           {poke.types.map((type) => (
-            <span key={type.type.name}>{type.type.name} </span>
+            <b key={type.type.name}>{poke.types.length < 2 ? type.type.name : type === poke.types[0] ? `${type.type.name} &` : type.type.name} </b>
           ))}
         </div>
         <div>
-          {comparedTypes.map((ct) => (
+          {comparedTypes.length > 0 ? comparedTypes.map((ct) => (
             <div key={ct.message} style={{ color: ct.color }}>
               {ct.message}
-            </div>
-          ))}
+            </div> 
+          )) : <div style={{color:"DodgerBlue"}}>No special demages between these types</div>}
         </div>
         <div>
-          Stats:
           <table className="Stats">
             <colgroup>
               <col className="statName" />
@@ -104,7 +107,7 @@ const PokemonCard = ({ poke, types, opponent }) => {
                               (s) => s.stat.name === stat.stat.name
                             ).base_stat
                           ? "red"
-                          : "blue",
+                          : "DodgerBlue",
                     }}
                   >
                     {stat.base_stat}
@@ -114,17 +117,17 @@ const PokemonCard = ({ poke, types, opponent }) => {
             ))}
           </table>
         </div>
-        <div>
+        <div style={{fontWeight:'bold', marginTop:'2rem'}}>
           Total:{" "}
           <span
             style={{
               color:
-                total > oppTotal ? "green" : total < oppTotal ? "red" : "blue",
+                total > oppTotal ? "green" : total < oppTotal ? "red" : "DodgerBlue",
             }}
           >
             {total}
           </span>{" "}
-          Average:
+          Average:{" "} 
           <span
             style={{
               color:
@@ -132,7 +135,7 @@ const PokemonCard = ({ poke, types, opponent }) => {
                   ? "green"
                   : average < oppAverage
                   ? "red"
-                  : "blue",
+                  : "DodgerBlue",
             }}
           >
             {average}

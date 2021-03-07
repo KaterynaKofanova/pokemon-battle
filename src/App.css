@@ -1,18 +1,13 @@
 
-html {
-  display: table;
-  margin: auto;
-}
-
 body {
-  display: table-cell;
-  vertical-align: middle;
-  margin:25px;
-}
-
-.App {
-  margin-top: 5vh;
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url('pattern.png'), url('pattern.png'), url('pattern.png'), url('pattern.png'), url('pattern.png'), url('pattern.png') ;
+  background-position: left top, center top, right top,  left bottom,  center bottom, right bottom ;
+  background-repeat: no-repeat;
+  background-size: 15%;
 }
 
 .PokemonCard > img{
@@ -32,16 +27,19 @@ body {
   border: 5px solid black;
   text-align: center;
   padding: 2rem;
+  background-color: white;
 }
 
 .Stats{
   width: 100%; 
   text-align: left;
+  margin-top: 4%;
+  margin-bottom: 4%;
 }
 
 .statValue{
   width: 60%; 
-  background-color: #888;
+  background-color: rgb(223, 223, 223);
 }
 
 
@@ -49,4 +47,10 @@ body {
   display: flex;
   margin-top: 5vh;
   align-items: center;
+}
+
+.RandomPoke{
+  color:dodgerblue;
+  text-decoration: underline;
+  cursor: pointer;
 }

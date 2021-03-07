@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {PokemonNames} from '../data/PokemonNames'
 
 const EntryForm = ({ setPokeOne, setPokeTwo, setTypesOne, setTypesTwo }) => {
   const [nameOne, setNameOne] = useState("");
@@ -35,25 +36,35 @@ const EntryForm = ({ setPokeOne, setPokeTwo, setTypesOne, setTypesTwo }) => {
     }
   };
 
+  const randomPokeOne = PokemonNames[Math.round(Math.random()*897)]
+  const randomPokeTwo = PokemonNames[Math.round(Math.random()*897)]
+
   return (
     <form onSubmit={handleSubmit}>
+      <datalist id='pokemonNames'>
+        {PokemonNames.map(p => <option value={p} />)}
+      </datalist>
       <div>
         First pokemon:{" "}
         <input
           type="text"
+          list='pokemonNames'
           value={nameOne}
           required
           onChange={(e) => setNameOne(e.target.value)}
         />
+        <p>How about <span onClick={()=> setNameOne(randomPokeOne)} className='RandomPoke'>{randomPokeOne}</span>?</p>
       </div>
       <div>
         Second pokemon:{" "}
         <input
           type="text"
+          list='pokemonNames'
           value={nameTwo}
           required
           onChange={(e) => setNameTwo(e.target.value)}
         />
+        <p>How about <span onClick={()=> setNameTwo(randomPokeTwo)} className='RandomPoke'>{randomPokeTwo}</span>?</p>
       </div>
       <button type="submit">Compare</button>
     </form>

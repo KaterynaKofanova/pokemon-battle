@@ -3,14 +3,22 @@ import React, { useState } from "react";
 import EntryForm from "./components/EntryForm";
 import PokemonCard from "./components/PokemonCard";
 
+
 const App = () => {
   const [pokeOne, setPokeOne] = useState(null);
   const [pokeTwo, setPokeTwo] = useState(null);
   const [typesOne, setTypesOne] = useState(null);
   const [typesTwo, setTypesTwo] = useState(null);
+
+  const handleReset = () => {
+    setPokeOne(null)
+    setPokeTwo(null)
+  }
   return (
     <div className="App">
-      <h3>Compare Pokemons by Type</h3>
+      {!pokeOne&&!pokeTwo ? 
+      <div>
+      <h3>Compare Pokemons by Type and Base Stats</h3>
       <div>
         <EntryForm
           setPokeOne={setPokeOne}
@@ -19,6 +27,9 @@ const App = () => {
           setTypesTwo={setTypesTwo}
         />
       </div>
+      </div>
+      : <button onClick={handleReset}>Back</button>
+}
       <div className="Cards">
         <div>
           <PokemonCard poke={pokeOne} types={typesOne} opponent={pokeTwo} />
