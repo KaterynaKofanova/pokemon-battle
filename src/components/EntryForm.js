@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
 import {PokemonNames} from '../data/PokemonNames'
+import { findAllByDisplayValue } from "@testing-library/dom";
 
 const EntryForm = ({ setPokeOne, setPokeTwo, setTypesOne, setTypesTwo }) => {
   const [nameOne, setNameOne] = useState("");
   const [nameTwo, setNameTwo] = useState("");
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if(!PokemonNames.includes(nameOne)){
+      setMessage(`${nameOne} is not a valid pokemon name! Try a different name.`)
+      setLoading(false)
+    }else if(!PokemonNames.includes(nameTwo)){
+      setMessage(`${nameTwo} is not a valid pokemon name! Try a different name.`)
+      setLoading(false)
+    }else{
+      setMessage(null)
+      setLoading(true)
     try {
       const pokeOne = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${nameOne.toLowerCase()}/`
@@ -32,14 +44,18 @@ const EntryForm = ({ setPokeOne, setPokeTwo, setTypesOne, setTypesTwo }) => {
       setNameOne("");
       setNameTwo("");
     } catch (error) {
-      console.log(error.message);
+      setMessage('One of the pokemon names in incorrect!');
+      setLoading(false)
+    }
     }
   };
 
-  const randomPokeOne = PokemonNames[Math.round(Math.random()*897)]
-  const randomPokeTwo = PokemonNames[Math.round(Math.random()*897)]
+  const randomPokeOne = PokemonNames[Math.round(Math.random()*896)]
+  const randomPokeTwo = PokemonNames[Math.round(Math.random()*896)]
 
   return (
+    <div>
+      {message ? <div className='Message'>{message}</div> : null}
     <form onSubmit={handleSubmit}>
       <datalist id='pokemonNames'>
         {PokemonNames.map(p => <option value={p} />)}
@@ -66,8 +82,9 @@ const EntryForm = ({ setPokeOne, setPokeTwo, setTypesOne, setTypesTwo }) => {
         />
         <p>How about <span onClick={()=> setNameTwo(randomPokeTwo)} className='RandomPoke'>{randomPokeTwo}</span>?</p>
       </div>
-      <button type="submit">Compare</button>
+      {!loading ? <div style={{textAlign:'center'}}><button type="submit">Compare</button></div> : <div style={{textAlign:'center'}}><span className='loader'></span> Loading...</div>}
     </form>
+    </div>
   );
 };
 
