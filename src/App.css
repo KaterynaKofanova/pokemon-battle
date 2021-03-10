@@ -3,7 +3,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background: url('pattern.png'), url('pattern.png'), url('pattern.png'), url('pattern.png'), url('pattern.png'), url('pattern.png') ;
   background-position: left top, center top, right top,  left bottom,  center bottom, right bottom ;
   background-repeat: no-repeat;
